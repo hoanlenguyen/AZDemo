@@ -16,7 +16,7 @@ namespace AFDemo
     {
         [FunctionName(nameof(DurableFunctionFanOutIn))]
         public async Task RunOrchestrator(
-            [OrchestrationTrigger] IDurableOrchestrationContext context, ILogger log)
+            [OrchestrationTrigger] IDurableOrchestrationContext context)
         {
             var orderProcessingTasks = new List<Task<Order>>();
 
@@ -32,8 +32,6 @@ namespace AFDemo
 
             // Wait for all orders to process
             var orderNumbers = await Task.WhenAll(orderProcessingTasks);
-
-            log.LogInformation($"DurableFunctionFanOutIn ProcessOrder time: {watch.Elapsed.TotalSeconds} s.");
 
             // Send notification
             await context.CallActivityAsync(nameof(IOrderService.SendNotification), orderNumbers.Select(p => p.OrderNumber));

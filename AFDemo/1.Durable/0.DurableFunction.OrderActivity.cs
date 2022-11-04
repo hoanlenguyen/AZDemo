@@ -66,5 +66,18 @@ namespace AFDemo
             log.LogInformation($"Send notification.");
             _orderService.SendNotification(orderNumbers);
         }
+
+        [FunctionName(nameof(GetJobStatus))]
+        public string GetJobStatus([ActivityTrigger] string jobId, ILogger log)
+        {
+            //log.LogWarning($"SendAlert :{jobId}");
+            return Constants.Running;
+        }
+
+        [FunctionName(nameof(SendAlert))]
+        public void SendAlert([ActivityTrigger] string status, ILogger log)
+        {
+            log.LogWarning($"SendAlert :{status}");
+        }
     }
 }

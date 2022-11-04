@@ -8,6 +8,7 @@
       }
     }
   },
+  "OverridableExistingInstanceStates": "AnyState"
   //local.settings.json
   //"IsEncrypted": false,
   //"Values": {

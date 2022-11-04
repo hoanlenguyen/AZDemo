@@ -21,6 +21,7 @@ namespace AFDemo
             order = await context.CallActivityAsync<Order>(nameof(IOrderService.ValidateOrder), order);
             order = await context.CallActivityAsync<Order>(nameof(IOrderService.ProcessOrder), order);
             order = await context.CallActivityAsync<Order>(nameof(IOrderService.SaveOrder), order);
+
             return order;
         }
 
@@ -31,9 +32,8 @@ namespace AFDemo
            ILogger log)
         {
             var instanceId = await starter.StartNewAsync(nameof(DurableFunctionChaining), await req.Content.ReadAsAsync<Order>());
-
+            
             log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
-
             return starter.CreateCheckStatusResponse(req, instanceId);
         }
     }
