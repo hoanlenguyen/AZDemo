@@ -1,6 +1,11 @@
-﻿using Microsoft.Azure.WebJobs;
+﻿using AFDemo.Models;
+using AFDemo.Services;
+using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AFDemo
 {
@@ -30,10 +35,12 @@ namespace AFDemo
         }
 
         [FunctionName(nameof(IOrderService.ProcessOrder))]
-        public Order ProcessOrder([ActivityTrigger] Order order, ILogger log)
+        public async Task<Order> ProcessOrderAsync([ActivityTrigger] Order order, ILogger log)
         {
             log.LogInformation($"Processing order.");
             var processedOrder = _orderService.ProcessOrder(order);
+            await Task.Delay(20000);
+
             return processedOrder;
         }
 
@@ -43,6 +50,21 @@ namespace AFDemo
             log.LogInformation($"Saving order.");
             var savedOrder = _orderService.SaveOrder(order);
             return savedOrder;
+        }
+
+        [FunctionName(nameof(IOrderService.GetOrders))]
+        public List<Order> GetOrders([ActivityTrigger] DateTime dateTime, ILogger log)
+        {
+            log.LogInformation($"Getting orders.");
+            var orders = _orderService.GetOrders(dateTime);
+            return orders;
+        }
+
+        [FunctionName(nameof(IOrderService.SendNotification))]
+        public void SendNotification([ActivityTrigger] string[] orderNumbers, ILogger log)
+        {
+            log.LogInformation($"Send notification.");
+            _orderService.SendNotification(orderNumbers);
         }
     }
 }
