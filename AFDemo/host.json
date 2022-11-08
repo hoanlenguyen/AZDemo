@@ -8,12 +8,7 @@
       }
     }
   },
-  "OverridableExistingInstanceStates": "AnyState"
-  //local.settings.json
-  //"IsEncrypted": false,
-  //"Values": {
-  //  "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-  //  "FUNCTIONS_WORKER_RUNTIME": "dotnet"
-  //}
-
+  "ConnectionStrings": {
+    "DefaultConnection": "DataSource=Data\\Database.db; Cache=Shared"
+  }
 }

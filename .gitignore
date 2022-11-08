@@ -4,3 +4,5 @@
 
 /.vs/AFDemo
 /.vs/ProjectEvaluation
+/ServiceBusSenderDemo/bin/Debug/net6.0
+/ServiceBusSenderDemo/obj

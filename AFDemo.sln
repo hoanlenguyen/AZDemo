@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AFDemo", "AFDemo\AFDemo.csproj", "{639048B6-EA99-4367-9981-7F8BA563CF60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AFDemo", "AFDemo\AFDemo.csproj", "{639048B6-EA99-4367-9981-7F8BA563CF60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceBusSenderDemo", "ServiceBusSenderDemo\ServiceBusSenderDemo.csproj", "{1FA2C722-21C2-4A20-8818-909BFD52B929}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{639048B6-EA99-4367-9981-7F8BA563CF60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{639048B6-EA99-4367-9981-7F8BA563CF60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{639048B6-EA99-4367-9981-7F8BA563CF60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FA2C722-21C2-4A20-8818-909BFD52B929}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FA2C722-21C2-4A20-8818-909BFD52B929}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FA2C722-21C2-4A20-8818-909BFD52B929}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FA2C722-21C2-4A20-8818-909BFD52B929}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
