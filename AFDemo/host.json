@@ -9,6 +9,6 @@
     }
   },
   "ConnectionStrings": {
-    "DefaultConnection": "DataSource=Data\\Database.db; Cache=Shared"
+    "DefaultConnection": "Data Source=Data\\Database.db"
   }
 }
