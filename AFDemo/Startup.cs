@@ -15,6 +15,7 @@ namespace AFDemo
         {
             var config = new ConfigurationBuilder()
                          .AddJsonFile("host.json", optional: true, reloadOnChange: true)
+                         .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
                          .AddEnvironmentVariables()
                          .Build();
 
