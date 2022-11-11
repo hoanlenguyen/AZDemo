@@ -25,7 +25,11 @@ namespace AFDemo
             string jobId = context.GetInput<string>();
             int pollingInterval = GetPollingInterval();
             DateTime expiryTime = GetExpiryTime(context);
+            //add a job process for test 
+            
+            //await context.CallActivityAsync(nameof(OrderActivity.SendAlert), Constants.Completed);
 
+            //
             while (context.CurrentUtcDateTime < expiryTime)
             {
                 var jobStatus = await context.CallActivityAsync<string>(nameof(OrderActivity.GetJobStatus), jobId);
