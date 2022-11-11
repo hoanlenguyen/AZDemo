@@ -32,7 +32,7 @@ namespace AFDemo
            ILogger log)
         {
             var instanceId = await starter.StartNewAsync(nameof(DurableFunctionChaining), await req.Content.ReadAsAsync<Order>());
-            
+
             log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
             return starter.CreateCheckStatusResponse(req, instanceId);
         }

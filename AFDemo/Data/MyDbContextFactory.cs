@@ -10,12 +10,8 @@ namespace AFDemo.Data
     {
         public MyDbContext CreateDbContext(string[] args)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .AddJsonFile("host.json")
-                .AddJsonFile("local.settings.json")
-                .Build();
             var optionsBuilder = new DbContextOptionsBuilder<MyDbContext>();
-            optionsBuilder.UseSqlite(configuration["ConnectionStrings:DefaultConnection"]);            
+            optionsBuilder.UseSqlite("Data Source=Data\\Database.db");            
             return new MyDbContext(optionsBuilder.Options);
         }
     }
