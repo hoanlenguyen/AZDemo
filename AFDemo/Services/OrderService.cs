@@ -20,6 +20,12 @@ namespace AFDemo.Services
         List<Order> GetOrders(DateTime dateTime);
 
         void SendNotification(IEnumerable<string> orderNumbers);
+
+        string GetJobStatus(string jobId);
+
+        void CreateProcessingJob(string jobId);
+
+        int CompletedProcessingJob(string jobId);
     }
 
     public class OrderService : IOrderService
@@ -67,14 +73,6 @@ namespace AFDemo.Services
         public List<Order> GetOrders(DateTime dateTime)
         {
             return db.Orders.AsNoTracking().OrderByDescending(p => p.Id).Take(5).ToList();
-            //return new List<Order>()
-            //{
-            //    new Order(){OrderNumber = "ON-00001",Id=1 , Quantity=1},
-            //    new Order(){OrderNumber = "ON-00002",Id=2 , Quantity=2},
-            //    new Order(){OrderNumber = "ON-00003",Id=3 , Quantity=3},
-            //    new Order(){OrderNumber = "ON-00004",Id=4 , Quantity=4},
-            //    new Order(){OrderNumber = "ON-00005",Id=5 , Quantity=5}
-            //};
         }
 
         public void SendNotification(IEnumerable<string> orderNumbers)
@@ -84,6 +82,35 @@ namespace AFDemo.Services
             {
                 //Send orderNumber
             }
+        }
+
+        public string GetJobStatus(string jobId)
+        {
+            var job= db.ProcessOrderStatuses.FirstOrDefault(p => p.JobId == jobId);
+            var status = job != null ? job.Status : Constants.Running;
+            return status;
+        }
+
+        public void CreateProcessingJob(string jobId)
+        {
+            db.ProcessOrderStatuses.Add(new ProcessOrderStatus
+            {
+                JobId = jobId,
+                Status = Constants.Running
+            });
+            db.SaveChanges();
+        }
+
+        public int CompletedProcessingJob(string jobId)
+        {
+            var job = db.ProcessOrderStatuses.FirstOrDefault(p => p.JobId == jobId);
+            if (job != null)
+            {
+                job.Status = Constants.Completed;
+                db.SaveChanges();
+                return job.Id;
+            }
+            return 0;
         }
     }
 }

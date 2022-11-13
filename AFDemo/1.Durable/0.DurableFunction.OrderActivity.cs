@@ -18,15 +18,15 @@ namespace AFDemo
             _orderService = orderService;
         }
 
-        [FunctionName(nameof(IOrderService.InitializeOrder))]
-        public Order Initialize([ActivityTrigger] Order order, ILogger log)
+        [FunctionName(nameof(InitializeOrder))]
+        public Order InitializeOrder([ActivityTrigger] Order order, ILogger log)
         {
             log.LogInformation($"Initializing order.");
             var initializedOrder = _orderService.InitializeOrder(order);
             return initializedOrder;
         }
 
-        [FunctionName(nameof(IOrderService.ValidateOrder))]
+        [FunctionName(nameof(ValidateOrder))]
         public Order ValidateOrder([ActivityTrigger] Order order, ILogger log)
         {
             log.LogInformation($"Validating order.");
@@ -34,8 +34,8 @@ namespace AFDemo
             return validatedOrder;
         }
 
-        [FunctionName(nameof(IOrderService.ProcessOrder))]
-        public async Task<Order> ProcessOrderAsync([ActivityTrigger] Order order, ILogger log)
+        [FunctionName(nameof(ProcessOrder))]
+        public async Task<Order> ProcessOrder([ActivityTrigger] Order order, ILogger log)
         {
             log.LogInformation($"Processing order.");
             var processedOrder = _orderService.ProcessOrder(order);
@@ -44,7 +44,7 @@ namespace AFDemo
             return processedOrder;
         }
 
-        [FunctionName(nameof(IOrderService.SaveOrder))]
+        [FunctionName(nameof(SaveOrder))]
         public Order SaveOrder([ActivityTrigger] Order order, ILogger log)
         {
             log.LogInformation($"Saving order.");
@@ -52,7 +52,7 @@ namespace AFDemo
             return savedOrder;
         }
 
-        [FunctionName(nameof(IOrderService.GetOrders))]
+        [FunctionName(nameof(GetOrders))]
         public List<Order> GetOrders([ActivityTrigger] DateTime dateTime, ILogger log)
         {
             log.LogInformation($"Getting orders.");
@@ -60,7 +60,7 @@ namespace AFDemo
             return orders;
         }
 
-        [FunctionName(nameof(IOrderService.SendNotification))]
+        [FunctionName(nameof(SendNotification))]
         public void SendNotification([ActivityTrigger] string[] orderNumbers, ILogger log)
         {
             log.LogInformation($"Send notification.");
@@ -70,8 +70,16 @@ namespace AFDemo
         [FunctionName(nameof(GetJobStatus))]
         public string GetJobStatus([ActivityTrigger] string jobId, ILogger log)
         {
-            //log.LogWarning($"SendAlert :{jobId}");
-            return Constants.Running;
+            var status = _orderService.GetJobStatus(jobId);
+            return status;
+        }
+
+        [FunctionName(nameof(CreateProcessingJob))]
+        public void CreateProcessingJob([ActivityTrigger] string jobId, ILogger log)
+        {
+            log.LogWarning($"Create jobId {jobId}");
+
+            _orderService.CreateProcessingJob(jobId);
         }
 
         [FunctionName(nameof(SendAlert))]

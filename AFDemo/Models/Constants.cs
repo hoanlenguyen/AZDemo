@@ -4,5 +4,6 @@
     {
         public const string Running = "Running";
         public const string Completed = "Completed";
+        public const string EndMonitor = "EndMonitor";
     }
 }

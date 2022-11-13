@@ -11,10 +11,7 @@ namespace AFDemo.Data
         }
 
         public virtual DbSet<Order> Orders { get; set; }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //}
+        public virtual DbSet<ProcessOrderStatus> ProcessOrderStatuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

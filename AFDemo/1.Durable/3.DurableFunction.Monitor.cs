@@ -1,5 +1,4 @@
 ﻿using AFDemo.Models;
-using AFDemo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -7,9 +6,6 @@ using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,9 +21,9 @@ namespace AFDemo
             string jobId = context.GetInput<string>();
             int pollingInterval = GetPollingInterval();
             DateTime expiryTime = GetExpiryTime(context);
-            //add a job process for test 
-            
-            //await context.CallActivityAsync(nameof(OrderActivity.SendAlert), Constants.Completed);
+            //add a job process for test
+
+            await context.CallActivityAsync(nameof(OrderActivity.CreateProcessingJob), jobId);
 
             //
             while (context.CurrentUtcDateTime < expiryTime)
@@ -48,7 +44,9 @@ namespace AFDemo
                 var nextCheck = context.CurrentUtcDateTime.AddSeconds(pollingInterval);
                 await context.CreateTimer(nextCheck, CancellationToken.None);
             }
+
             // Perform more work here, or let the orchestration end.
+            await context.CallActivityAsync(nameof(OrderActivity.SendAlert), Constants.EndMonitor);
         }
 
         [FunctionName($"{nameof(DurableFunctionMonitor)}_HttpStart")]
@@ -69,7 +67,7 @@ namespace AFDemo
 
         private int GetPollingInterval()
         {
-            return 15; //Define the polling interval
+            return 3; //Define the polling interval
         }
     }
 }
