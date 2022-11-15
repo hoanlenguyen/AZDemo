@@ -1,4 +1,5 @@
 ﻿using AFDemo.Models;
+using AFDemo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -13,22 +14,25 @@ namespace AFDemo
 {
     public class DurableFunctionMonitor
     {
+        private readonly IOrderService _orderService;
+        public DurableFunctionMonitor(IOrderService orderService)
+        {
+            _orderService = orderService;
+        }
+
         [FunctionName(nameof(DurableFunctionMonitor))]
         public async Task RunOrchestrator(
             [OrchestrationTrigger] IDurableOrchestrationContext context,
             ILogger log)
         {
-            string jobId = context.GetInput<string>();
+            var job = context.GetInput<ProcessOrderStatus>();
+            log.LogWarning($"DurableFunctionMonitor - jobId: {job.JobId}");
             int pollingInterval = GetPollingInterval();
             DateTime expiryTime = GetExpiryTime(context);
-            //add a job process for test
-
-            await context.CallActivityAsync(nameof(OrderActivity.CreateProcessingJob), jobId);
-
-            //
+             
             while (context.CurrentUtcDateTime < expiryTime)
             {
-                var jobStatus = await context.CallActivityAsync<string>(nameof(OrderActivity.GetJobStatus), jobId);
+                var jobStatus = await context.CallActivityAsync<string>(nameof(OrderActivity.GetJobStatus), job.JobId);
                 if (jobStatus == Constants.Completed)
                 {
                     // Perform an action when a condition is met.
@@ -48,7 +52,7 @@ namespace AFDemo
             // Perform more work here, or let the orchestration end.
             await context.CallActivityAsync(nameof(OrderActivity.SendAlert), Constants.EndMonitor);
         }
-
+         
         [FunctionName($"{nameof(DurableFunctionMonitor)}_HttpStart")]
         public async Task<IActionResult> HttpStart(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req,
@@ -56,8 +60,18 @@ namespace AFDemo
             ILogger log)
         {
             var jobId = req.Query["jobId"];
-            var instanceId = await starter.StartNewAsync(nameof(DurableFunctionMonitor), jobId);
+            log.LogWarning($"jobId: {jobId}");
+
+            //Create a mock Running Job for test DurableFunctionMonitor
+            CreateRunningTestJob(jobId);
+
+            var instanceId = await starter.StartNewAsync(nameof(DurableFunctionMonitor), new ProcessOrderStatus { JobId = jobId });
             return starter.CreateCheckStatusResponse(req, instanceId);
+        }
+        
+        private void CreateRunningTestJob(string jobId)
+        {
+            _orderService.CreateProcessingJob(jobId);
         }
 
         private DateTime GetExpiryTime(IDurableOrchestrationContext context)

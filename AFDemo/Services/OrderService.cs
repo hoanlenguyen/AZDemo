@@ -65,7 +65,7 @@ namespace AFDemo.Services
         public Order SaveOrder(Order order)
         {
             order.OrderStatus = nameof(SaveOrder);
-            db.Add(order);
+            db.Orders.Add(order);
             db.SaveChanges();
             return order;
         }

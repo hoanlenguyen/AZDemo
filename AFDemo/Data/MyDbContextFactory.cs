@@ -11,7 +11,7 @@ namespace AFDemo.Data
         public MyDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<MyDbContext>();
-            optionsBuilder.UseSqlite("Data Source=Data\\Database.db");            
+            optionsBuilder.UseSqlServer("Server=HoanPC\\HoanPC;Database=AFDemoDb;Trusted_Connection=True;MultipleActiveResultSets=True;");
             return new MyDbContext(optionsBuilder.Options);
         }
     }

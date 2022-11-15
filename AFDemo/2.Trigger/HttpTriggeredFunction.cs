@@ -47,9 +47,8 @@ namespace AFDemo
             string jobId = req.Query["jobId"];  
             var id = orderService.CompletedProcessingJob(jobId);
             if(id == 0)
-            {
                 log.LogError($"Can not find {jobId}");
-            }
+
             return new OkObjectResult(jobId);
         }
     }

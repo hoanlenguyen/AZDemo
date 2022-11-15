@@ -14,7 +14,7 @@ namespace AFDemo
         {
             //add db
             builder.Services.AddDbContext<MyDbContext>(options =>
-                options.UseSqlite("Data Source=Data\\Database.db"));
+                options.UseSqlServer("Server=HoanPC\\HoanPC;Database=AFDemoDb;Trusted_Connection=True;MultipleActiveResultSets=True;"));
 
             //add service
             builder.Services.AddScoped<IOrderService, OrderService>();

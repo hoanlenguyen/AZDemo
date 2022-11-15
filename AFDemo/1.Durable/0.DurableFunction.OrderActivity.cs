@@ -73,15 +73,7 @@ namespace AFDemo
             var status = _orderService.GetJobStatus(jobId);
             return status;
         }
-
-        [FunctionName(nameof(CreateProcessingJob))]
-        public void CreateProcessingJob([ActivityTrigger] string jobId, ILogger log)
-        {
-            log.LogWarning($"Create jobId {jobId}");
-
-            _orderService.CreateProcessingJob(jobId);
-        }
-
+ 
         [FunctionName(nameof(SendAlert))]
         public void SendAlert([ActivityTrigger] string status, ILogger log)
         {

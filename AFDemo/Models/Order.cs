@@ -7,10 +7,10 @@ namespace AFDemo.Models
     {
         public int Id { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(50)]
         public string OrderNumber { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(100)]
         public string ProductSKu { get; set; }
 
         public int Quantity { get; set; }
