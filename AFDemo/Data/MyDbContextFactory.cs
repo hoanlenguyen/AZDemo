@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 using System;
-using System.IO;
 
 namespace AFDemo.Data
 {
@@ -11,7 +9,7 @@ namespace AFDemo.Data
         public MyDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<MyDbContext>();
-            optionsBuilder.UseSqlServer("Server=HoanPC\\HoanPC;Database=AFDemoDb;Trusted_Connection=True;MultipleActiveResultSets=True;");
+            optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("DBConnectionString"));
             return new MyDbContext(optionsBuilder.Options);
         }
     }

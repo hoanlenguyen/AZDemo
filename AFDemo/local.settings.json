@@ -1,0 +1,8 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "DBConnectionString": "Server=HOANLE\\HOANLE;Database=AFDemoDb;Trusted_Connection=True;MultipleActiveResultSets=True;"
+  }
+}
